@@ -1,0 +1,70 @@
+Metasequoia Document
+Format Text Ver 1.0
+
+Scene {
+	pos -132.1449 4.3289 898.1915
+	lookat 0.1299 25.0825 0.9565
+	head -23.4538
+	pich 1.5708
+	bank 0.0000
+	ortho 0
+	zoom2 2.9451
+	amb 0.250 0.250 0.250
+	dirlights 1 {
+		light {
+			dir 0.408 0.408 0.816
+			color 1.000 1.000 1.000
+		}
+	}
+}
+Material 1 {
+	"mat1" col(0.671 0.208 0.000 1.000) dif(1.000) amb(0.000) emi(0.200) spc(0.090) power(9.00) tex("sasori.bmp") bump("sasorib.bmp")
+}
+Object "obj1" {
+	visible 15
+	locking 0
+	shading 1
+	facet 180.0
+	color 0.431 0.533 0.725
+	color_type 0
+	vertex 5 {
+		4.7288 -18.3457 -37.4275
+		22.4671 19.2074 -43.0876
+		-19.2443 15.8887 -40.6241
+		6.8225 16.4709 44.9272
+		2.6505 5.5834 -40.3796
+	}
+	face 6 {
+		3 V(0 3 1) M(0) UV(0.00000 1.00000 0.16667 0.00000 0.33333 1.00000)
+		3 V(1 3 2) M(0) UV(0.33333 1.00000 0.33333 0.00000 0.66667 1.00000)
+		3 V(2 3 0) M(0) UV(0.66667 1.00000 0.50000 0.00000 1.00000 1.00000)
+		3 V(4 0 1) M(0)
+		3 V(4 1 2) M(0)
+		3 V(4 2 0) M(0)
+	}
+}
+Object "obj2" {
+	visible 15
+	locking 0
+	shading 1
+	facet 59.5
+	color 0.490 0.725 0.035
+	color_type 1
+	vertex 0 {
+	}
+	face 0 {
+	}
+}
+Object "obj3" {
+	visible 15
+	locking 0
+	shading 1
+	facet 180.0
+	color 0.431 0.533 0.725
+	color_type 0
+	vertex 0 {
+	}
+	face 0 {
+	}
+}
+Eof

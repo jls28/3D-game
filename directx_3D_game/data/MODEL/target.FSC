@@ -1,0 +1,34 @@
+/*							Parts Assembler
+                                  Version 2.04.080624(:
+Parts: 
+	EF\EF10.suf
+	EF\EF11.suf
+Info:
+	DisplayOffset: (   0.000   0.000   0.000 )
+	DisplayScale: 0.125000000000
+	MeshFlag: 1
+	MeshSpacing: 200
+	ShowStatus: 1
+	GridFlag: 1
+	GridSpacing: 50
+	RotSpacing: 10
+	SelectedOnly: 0
+*/
+fram
+{
+	light pal( rgb ( 1.00 1.00 1.00 )  27 -65 -70 )
+	{	mov ( 630.568 1570.97 440.941 ) eye deg( 60 ) }
+	{	mov ( 0 0 0 ) target }
+{	mov ( 15 0 0 ) rotz ( -90 ) roty ( 0 ) rotx ( 0 )
+	scal ( 0.8 0.1 0.8 ) obj EF11 /* "EF\EF11.suf" */
+}
+{	mov ( -35 0 0 ) rotz ( -90 ) roty ( 0 ) rotx ( 0 )
+	scal ( 1 0.2 1 ) obj EF10 /* "EF\EF10.suf" */
+}
+{	mov ( 15 0 0 ) rotz ( -90 ) roty ( 0 ) rotx ( 0 )
+	scal ( 0.3 0.3 0.3 ) obj EF11 /* "EF\EF11.suf" */
+}
+{	mov ( 15 0 0 ) rotz ( -90 ) roty ( 0 ) rotx ( 0 )
+	scal ( 0.5 0.2 0.5 ) obj EF10 /* "EF\EF10.suf" */
+}
+}
