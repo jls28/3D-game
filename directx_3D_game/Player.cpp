@@ -1,12 +1,12 @@
 //=============================================================================
 //
-// ©‹@ƒ‚ƒfƒ‹•\¦ˆ— [Player.cpp]
-// Author : ˆîàVr˜a
+// è‡ªæ©Ÿãƒ¢ãƒ‡ãƒ«è¡¨ç¤ºå‡¦ç† [Player.cpp]
+// Author : ç¨²æ¾¤ä¿Šå’Œ
 //
 //=============================================================================
 
 //=============================================================================
-// ƒCƒ“ƒNƒ‹[ƒh
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 //=============================================================================
 #include "main.h"
 #include "Player.h"
@@ -27,18 +27,19 @@
 #include "Collision.h"
 #include "Goal.h"
 //=============================================================================
-// ƒ}ƒNƒ’è‹`
+// ãƒã‚¯ãƒ­å®šç¾©
 //=============================================================================
-#define FIELD_WIDTH		(100.0f)		// ’n–Ê‚Ì•
-#define FIELD_HIGHT		(100.0f)		// ’n–Ê‚Ìc
-#define MODEL_ROT_SPEED				(0.05f)		//ƒ‚ƒfƒ‹‚Ì‰ñ“]‘¬“x
-#define MODEL_SPEED_X				(1.7f)		//ƒ‚ƒfƒ‹‚ÌˆÚ“®‘¬“x
+#define FIELD_WIDTH		(100.0f)		// åœ°é¢ã®å¹…
+#define FIELD_HIGHT		(100.0f)		// åœ°é¢ã®ç¸¦
+#define MODEL_ROT_SPEED				(0.05f)		//ãƒ¢ãƒ‡ãƒ«ã®å›è»¢é€Ÿåº¦
+#define MODEL_SPEED_X				(1.7f)		//ãƒ¢ãƒ‡ãƒ«ã®ç§»å‹•é€Ÿåº¦
 #define MODEL_SPEED_Z				(1.3f)		//
 #define MODEL_SPEED_Y				(0.05f)		//
 #define MODEL_SPEED					(0.7f)		//
+#define DEAD_HEIGHT             (20)
 
 //=============================================================================
-// ƒOƒ[ƒoƒ‹•Ï”
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 //=============================================================================
 CRenderer* CPlayer::m_pPlayer=NULL;
 D3DXVECTOR3 Speed=D3DXVECTOR3(0.0f,0.0f,0.0f);
@@ -48,7 +49,7 @@ CPlayer* CPlayer::m_pFlag;
 CPlayer* CPlayer::m_pPPlayer=NULL;
 
 //=============================================================================
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //=============================================================================
 CPlayer::CPlayer(OBJTYPE nObjType,int nPriority):CSceneX(nObjType,nPriority)
 {
@@ -72,7 +73,7 @@ CPlayer::CPlayer(OBJTYPE nObjType,int nPriority):CSceneX(nObjType,nPriority)
 }
 
 //=============================================================================
-// ƒfƒXƒgƒ‰ƒNƒ^
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //=============================================================================
 CPlayer::~CPlayer(void)
 {
@@ -80,16 +81,16 @@ CPlayer::~CPlayer(void)
 }
 
 //=============================================================================
-// ƒIƒuƒWƒFƒNƒg‚Ì¶¬
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆ
 //=============================================================================
 CPlayer* CPlayer::Create(float fPosX,float fPosY,float fPosZ,CRenderer* m_pRenderer)
 {
 	CPlayer *pPlayer;
-	//ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìì¬
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ä½œæˆ
 	pPlayer = new CPlayer(OBJTYPE_PLAYER);
-	//CEnemy‚ÌInit‚ğŒÄ‚Ño‚·
+	//CEnemyã®Initã‚’å‘¼ã³å‡ºã™
 	pPlayer->Init(m_pRenderer);
-	//À•W‚Ìİ’è
+	//åº§æ¨™ã®è¨­å®š
 	pPlayer->m_Pos = D3DXVECTOR3(fPosX,fPosY,fPosZ);
 	pPlayer->SetPos(fPosX,fPosY,fPosZ);
 	m_pPlayer=m_pRenderer;
@@ -97,11 +98,11 @@ CPlayer* CPlayer::Create(float fPosX,float fPosY,float fPosZ,CRenderer* m_pRende
 }
 
 //=============================================================================
-// ‰Šú‰»ˆ—
+// åˆæœŸåŒ–å‡¦ç†
 //=============================================================================
 HRESULT CPlayer::Init(CRenderer *pRenderer)
 {
-	//©‹@ƒ‚ƒfƒ‹‚Ìw’è
+	//è‡ªæ©Ÿãƒ¢ãƒ‡ãƒ«ã®æŒ‡å®š
 	FileName="data/MODEL/player/sasori_body2.x";
 
 	CSceneX::Init(pRenderer);
@@ -109,34 +110,34 @@ HRESULT CPlayer::Init(CRenderer *pRenderer)
 }
 
 //=============================================================================
-// I—¹ˆ—
+// çµ‚äº†å‡¦ç†
 //=============================================================================
 void CPlayer::Uninit(void)
 {
 	CManager::GetCamera()->SetCameraMode(CCamera::MODE_THIRDPERSON);
-	//©g‚ÌƒŠƒ\[ƒX‚Ì‰ğ•ú
+	//è‡ªèº«ã®ãƒªã‚½ãƒ¼ã‚¹ã®è§£æ”¾
 	CSceneX::Uninit();
 }
 
 //=============================================================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 //=============================================================================
 void CPlayer::Update(void)
 {
-	// ƒxƒNƒgƒ‹ŒvZ
+	// ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
 	float Vx = 0.0f;
 	float Vz = 0.0f;
 	float fDiffRotY = 0.0f;
 	D3DXVECTOR3 Normal=D3DXVECTOR3(0.0f,1.0f,0.0f);
-	//ƒWƒƒƒ“ƒvŠÖ˜A
-	float G=-0.2f;		//d—Í
-	float Power=5.0f;	//ã‚ª‚é—Í
-	//ƒMƒ~ƒbƒN‚Ì”»’èŠÖ˜A
+	//ã‚¸ãƒ£ãƒ³ãƒ—é–¢é€£
+	float G=-0.2f;		//é‡åŠ›
+	float Power=5.0f;	//ä¸ŠãŒã‚‹åŠ›
+	//ã‚®ãƒŸãƒƒã‚¯ã®åˆ¤å®šé–¢é€£
 	Vector2 VecLine,VecToTarget;
 	D3DXVECTOR3 OffSet;
 	D3DXVECTOR3 Target;
 	float ModelHigh=10.0f;
-	//‘OƒtƒŒ[ƒ€‚ÌƒMƒ~ƒbƒN‚ÌÀ•W
+	//å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚®ãƒŸãƒƒã‚¯ã®åº§æ¨™
 	float GimmickUpPosOld;
 	float GimmickUnderPosOld;
 	CPlayer* pPlayer=CGame::GetPlayer();
@@ -149,7 +150,7 @@ void CPlayer::Update(void)
 	CScene* pSceneLinkOld=m_pSceneLink;
 	m_pSceneLink=NULL;
 
-	//K”ö‚Ìó‘ÔŠÇ—
+	//å°»å°¾ã®çŠ¶æ…‹ç®¡ç†
 	switch(m_Mode)
 	{
 		case STATE_NORMAL:
@@ -172,15 +173,15 @@ void CPlayer::Update(void)
 			break;
 	}
 
-	//³–ÊƒxƒNƒgƒ‹‚ÌŒvZ
+	//æ­£é¢ãƒ™ã‚¯ãƒˆãƒ«ã®è¨ˆç®—
 	m_FrontVectol.x=-sinf(m_Rot.y)*1.0f;
 	m_FrontVectol.y=0;
 	m_FrontVectol.z=-cos(m_Rot.y)*1.0f;
 
-	//’e”­Ë
+	//å¼¾ç™ºå°„(æ•µãŒã„ãªã„ã®ã§ä¿ç•™)
 	//if(GetKeyboardTriger(DIK_Z))
 	//{
-	//	//’e‚Ì¶¬
+	//	//å¼¾ã®ç”Ÿæˆ
 	//	CBullet::Create(m_Pos.x,m_Pos.y,m_Pos.z,m_pPlayer,m_Rot.y);
 	//	CScore::AddScore(1);
 	//	m_BulletCnt++;
@@ -188,7 +189,7 @@ void CPlayer::Update(void)
 
 	if( m_Mode == STATE_NORMAL)
 	{
-		//ƒWƒƒƒ“ƒv
+		//ã‚¸ãƒ£ãƒ³ãƒ—
 		if(GetKeyboardTriger(DIK_SPACE) && m_JFlag==false)
 		{
 			m_JFlag=true;
@@ -202,7 +203,7 @@ void CPlayer::Update(void)
 			
 		}
 		m_Pos.y+=Speed.y;
-		//’n–Ê‚Ì‹N•š‚Æ‚Ì‚ ‚½‚è”»’è
+		//åœ°é¢ã®èµ·ä¼ã¨ã®ã‚ãŸã‚Šåˆ¤å®š
 		if(m_Pos.y<CGame::GetField()->GetHeight(m_Pos,&Normal))
 		{
 			m_JFlag=false;
@@ -210,7 +211,7 @@ void CPlayer::Update(void)
 		}
 
 		m_MoveFlag=false;
-		//‘Oi
+		//å‰é€²
 		if(GetKeyboardPress(DIK_W))
 		{
 			m_Pos.x -=sinf(CCamera::GetRot().y)*MODEL_SPEED_Z;
@@ -221,7 +222,7 @@ void CPlayer::Update(void)
 			m_MoveFlag=true;
 		}
 
-		//Œã‚ë
+		//å¾Œã‚
 		else if(GetKeyboardPress(DIK_S))
 		{
 			//m_RotDest.y =D3DXToRadian(180)+CCamera::GetRot().y;
@@ -230,7 +231,7 @@ void CPlayer::Update(void)
 			m_Pos.z +=cosf(CCamera::GetRot().y)*MODEL_SPEED_Z;
 			m_MoveFlag=true;
 		}
-		//‰E
+		//å³
 		if(GetKeyboardPress(DIK_D))
 		{
 			//m_RotDest.y =CCamera::GetRot().y+D3DXToRadian(90);
@@ -241,7 +242,7 @@ void CPlayer::Update(void)
 			m_MoveFlag=true;
 
 		}
-		//¶
+		//å·¦
 		if(GetKeyboardPress(DIK_A))
 		{
 			//m_RotDest.y =CCamera::GetRot().y+D3DXToRadian(-90);
@@ -255,11 +256,11 @@ void CPlayer::Update(void)
 		{
 			m_RotFlag=false;
 		}
-		//// ¶‰ñ“]
+		//// å·¦å›è»¢
 		//if(GetKeyboardPress(DIK_E))
 		//{
 		//	m_RotDest.y +=MODEL_ROT_SPEED;
-		//	//Šp“x’²®	
+		//	//è§’åº¦èª¿æ•´	
 		//	if(m_RotDest.y > D3DX_PI)
 		//	{
 		//		m_RotDest.y -= D3DX_PI*2; 
@@ -271,11 +272,11 @@ void CPlayer::Update(void)
 		//	//m_Flag=true;
 		//}
 		//
-		//// ‰E‰ñ“]
+		//// å³å›è»¢
 		//if(GetKeyboardPress(DIK_Q))
 		//{
 		//	m_RotDest.y-=MODEL_ROT_SPEED;
-		//	//Šp“x’²®	
+		//	//è§’åº¦èª¿æ•´	
 		//	if(m_RotDest.y > D3DX_PI)
 		//	{
 		//		m_RotDest.y -= D3DX_PI*2; 
@@ -289,7 +290,7 @@ void CPlayer::Update(void)
 	}
 
 	//fDiffRotY = m_RotDest.y - m_Rot.y;
-	//³‹K‰»
+	//æ­£è¦åŒ–
 	if(fDiffRotY > D3DX_PI)
 	{
 		fDiffRotY += -D3DX_PI * 2.0f;
@@ -300,7 +301,7 @@ void CPlayer::Update(void)
 	}
 
 	m_Rot.y+=fDiffRotY*0.1f;
-	//³‹K‰»
+	//æ­£è¦åŒ–
 	if(m_Rot.y > D3DX_PI)
 	{
 		m_Rot.y += -D3DX_PI * 2.0f;
@@ -310,16 +311,17 @@ void CPlayer::Update(void)
 		m_Rot.y += D3DX_PI * 2.0f;
 	}
 
-	//—nŠâ‚É‚¨‚¿‚½ˆ—
+	//æº¶å²©ã«ãŠã¡ãŸå‡¦ç†
 	if(m_Pos.y < 30.0f && m_Mode!=STATE_DEAD)
 	{
 		PlaySound(SOUND_LABEL_DEATH);
+		//ãƒã‚°ç™ºç”Ÿä¸­ã®ãŸã‚ã€ç„¡æ•µçŠ¶æ…‹ã«ã™ã‚‹(ãƒã‚°æ¤œè¨¼)		
 		//m_Mode=STATE_DEAD;
 		Speed.y=0;
 		Speed.y+=Power+4;
 	}
 	
-	//ƒS[ƒ‹‚É’…‚¢‚½‚Æ‚«
+	//ã‚´ãƒ¼ãƒ«ã«ç€ã„ãŸã¨ã
 	if(pCollision->SphereToSphere3D(pPlayer->GetPos(),10.0f,pGoal->GetPos(),10.0f)==true && m_Mode!=STATE_CLEAR)
 	{
 		PlaySound(SOUND_LABEL_CLEAR);
@@ -333,10 +335,10 @@ void CPlayer::Update(void)
 
 	pGimmick=GetScene(OBJTYPE_GIMMICK);
 
-	GimmickUpPosOld=pGimmick->GetPositionOld().y+ pGimmick->GetVertexMax().y;		//‘OƒtƒŒ[ƒ€‚Ì
+	GimmickUpPosOld=pGimmick->GetPositionOld().y+ pGimmick->GetVertexMax().y;		//å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®
 	GimmickUnderPosOld=pGimmick->GetPositionOld().y+ pGimmick->GetVertexMin().y;
 
-	//ƒMƒ~ƒbƒN‚É‘Î‚·‚éƒvƒŒƒCƒ„[‚ÌƒIƒtƒZƒbƒg‚ğ‹‚ß‚é
+	//ã‚®ãƒŸãƒƒã‚¯ã«å¯¾ã™ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’æ±‚ã‚ã‚‹
 	OffSet=m_Pos-pGimmick->GetPos();
 	Target.x=pGimmick->GetPos().x+(cos(-pGimmick->GetRot().y)*
 				OffSet.x+sin(-pGimmick->GetRot().y)*OffSet.z);
@@ -358,21 +360,21 @@ void CPlayer::Update(void)
 
 	VecToTarget.x=Target.x-GimmickPos[0].x;
 	VecToTarget.y=Target.z-GimmickPos[0].z;
-	//‰œ‚Ì”»’è
+	//å¥¥ã®åˆ¤å®š
 	if(VecLine.y*VecToTarget.x-VecLine.x*VecToTarget.y >=0.0f)
 	{
 		VecLine.x=GimmickPos[2].x-GimmickPos[1].x;
 		VecLine.y=GimmickPos[2].z-GimmickPos[1].z;
 		VecToTarget.x=Target.x-GimmickPos[1].x;
 		VecToTarget.y=Target.z-GimmickPos[1].z;
-		//‰E‚Ì”»’è
+		//å³ã®åˆ¤å®š
 		if(VecLine.y*VecToTarget.x-VecLine.x*VecToTarget.y >=0.0f)
 		{
 			VecLine.x=GimmickPos[3].x-GimmickPos[2].x;
 			VecLine.y=GimmickPos[3].z-GimmickPos[2].z;
 			VecToTarget.x=Target.x-GimmickPos[2].x;
 			VecToTarget.y=Target.z-GimmickPos[2].z;
-			//è‘O‚Ì”»’è
+			//æ‰‹å‰ã®åˆ¤å®š
 			if(VecLine.y*VecToTarget.x-VecLine.x*VecToTarget.y >=0.0f)
 			{
 				VecLine.x=GimmickPos[0].x-GimmickPos[3].x;
@@ -380,17 +382,17 @@ void CPlayer::Update(void)
 				VecToTarget.x=Target.x-GimmickPos[3].x;
 				VecToTarget.y=Target.z-GimmickPos[3].z;
 
-				//¶‚Ì”»’è
+				//å·¦ã®åˆ¤å®š
 				if(VecLine.y*VecToTarget.x-VecLine.x*VecToTarget.y >=0.0f)
 				{
-					//ƒMƒ~ƒbƒN‚Æ”ÍˆÍ“à‚É‚¢‚½ê‡
-					float GimmickUpPos=pGimmick->GetPos().y+pGimmick->GetVertexMax().y;			//ƒMƒ~ƒbƒN‚Ìã–Ê‚Ì‚‚³
-					float GimmickUnderPos=pGimmick->GetPos().y+pGimmick->GetVertexMin().y;		//ƒMƒ~ƒbƒN‚Ì‰º–Ê‚Ì‚‚³
+					//ã‚®ãƒŸãƒƒã‚¯ã¨ç¯„å›²å†…ã«ã„ãŸå ´åˆ
+					float GimmickUpPos=pGimmick->GetPos().y+pGimmick->GetVertexMax().y;			//ã‚®ãƒŸãƒƒã‚¯ã®ä¸Šé¢ã®é«˜ã•
+					float GimmickUnderPos=pGimmick->GetPos().y+pGimmick->GetVertexMin().y;		//ã‚®ãƒŸãƒƒã‚¯ã®ä¸‹é¢ã®é«˜ã•
 
 					if((GimmickUpPos>m_Pos.y && GimmickUpPosOld<=m_PosOld.y) || (GimmickUpPos<=m_PosOld.y && GimmickUpPos>m_Pos.y))
 					{
-						//ã‚©‚ç‚ß‚è‚ñ‚¾
-						//ƒvƒŒƒCƒ„[‚Ì¡‚ÆÌ‚Ì‚‚³‚ğÄİ’è
+						//ä¸Šã‹ã‚‰ã‚ã‚Šè¾¼ã‚“ã 
+						//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä»Šã¨æ˜”ã®é«˜ã•ã‚’å†è¨­å®š
 						m_Pos.y=GimmickUpPos;
 						m_PosOld.y=GimmickUpPos;
 						m_pSceneLink=pGimmick;
@@ -417,12 +419,12 @@ void CPlayer::Update(void)
 
 		if(VecLine.y*VecToTarget.x-VecLine.x*VecToTarget.y <0.0f)
 		{
-			//”ÍˆÍŠOˆ—’†’f
+			//ç¯„å›²å¤–å‡¦ç†ä¸­æ–­
 
 		}
 	}
 	
-	CDebugProc::Print("\nƒvƒŒƒCƒ„[‚ÌÀ•W: (%f,%f,%f)\n" ,  m_Pos.x,m_Pos.y,m_Pos.z); 
+	CDebugProc::Print("\nãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™: (%f,%f,%f)\n" ,  m_Pos.x,m_Pos.y,m_Pos.z); 
 	this->CSceneX::SetPos(m_Pos.x,m_Pos.y,m_Pos.z);
 	this->CSceneX::SetRot(m_Rot.x,m_Rot.y,m_Rot.z);
 	CSceneX::Update();
@@ -431,7 +433,7 @@ void CPlayer::Update(void)
 }
 
 //=============================================================================
-// •`‰æˆ—
+// æç”»å‡¦ç†
 //=============================================================================
 void CPlayer::Draw(void)
 {
@@ -441,50 +443,50 @@ void CPlayer::Draw(void)
 
 
 //=============================================================================
-// ƒvƒŒƒCƒ„[‚ª’Êíó‘Ô‚Ì‚Æ‚«
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒé€šå¸¸çŠ¶æ…‹ã®ã¨ã
 //=============================================================================
 void CPlayer::Neutral(void)
 {
-	//K”ö‚ÌÀ•W‚ÆŠp“x‚ğæ“¾
+	//å°»å°¾ã®åº§æ¨™ã¨è§’åº¦ã‚’å–å¾—
 	CGame::GetNeedle()->SetPosition((D3DXVECTOR3(m_Pos.x,m_Pos.y+20,m_Pos.z)));
 	CGame::GetNeedle()->SetRot(m_Rot.x,m_Rot.y,m_Rot.z);
 
-	//Œ»İ‚ÌƒJƒƒ‰‚Ìƒ‚[ƒh‚ªˆêlÌ‹“_‚È‚ç
+	//ç¾åœ¨ã®ã‚«ãƒ¡ãƒ©ã®ãƒ¢ãƒ¼ãƒ‰ãŒä¸€äººç§°è¦–ç‚¹ãªã‚‰
 	if(CManager::GetCamera()->GetCameraMode() == CCamera::MODE_FIRSTPERSON)
 	{
 		//m_Rot.y=-CManager::GetCamera()->GetRot().y;
-		m_Mode = STATE_SHOT;		//ó‘Ô‚ğ•ÏX
+		m_Mode = STATE_SHOT;		//çŠ¶æ…‹ã‚’å¤‰æ›´
 	}
 }
 
 //=============================================================================
-// ËŒ‚ó‘Ô‚Ì‚Æ‚«
+// å°„æ’ƒçŠ¶æ…‹ã®ã¨ã
 //=============================================================================
 void CPlayer::Shot(void)
 {
 	//CCamera* pCamera;
 
-	//G‚ğ‰Ÿ‚µ‚½‚Æ‚«K”ö‚Ì”­Ëƒtƒ‰ƒO‚ªfalse‚È‚ç
+	//Gã‚’æŠ¼ã—ãŸã¨ãå°»å°¾ã®ç™ºå°„ãƒ•ãƒ©ã‚°ãŒfalseãªã‚‰
 	if(GetKeyboardTriger(DIK_G) && TailShotFlag==false)
 	{
 		PlaySound(SOUND_LABEL_SHOT);
-		//ƒJƒƒ‰‚ÌŒü‚«‚Éj‚ğ”ò‚Î‚·
+		//ã‚«ãƒ¡ãƒ©ã®å‘ãã«é‡ã‚’é£›ã°ã™
 		CGame::GetNeedle()->Shot(CManager::GetCamera()->GetVecCamera());
-		TailShotFlag=true;		//K”ö‚Ì”­Ëƒtƒ‰ƒO‚ğtrue‚É‚·‚é
+		TailShotFlag=true;		//å°»å°¾ã®ç™ºå°„ãƒ•ãƒ©ã‚°ã‚’trueã«ã™ã‚‹
 	}
 
-	//Œ»İ‚ÌƒJƒƒ‰‚Ìƒ‚[ƒh‚ªOlÌ‹“_‚È‚ç
+	//ç¾åœ¨ã®ã‚«ãƒ¡ãƒ©ã®ãƒ¢ãƒ¼ãƒ‰ãŒä¸‰äººç§°è¦–ç‚¹ãªã‚‰
 	if(CManager::GetCamera()->GetCameraMode() == CCamera::MODE_THIRDPERSON)
 	{
-		m_Mode = STATE_NORMAL;		//ó‘Ô‚ğƒm[ƒ}ƒ‹‚É‚·‚é
-		TailShotFlag=false;			//K”ö‚Ì”­Ëƒtƒ‰ƒO‚ğfalse‚É‚·‚é
+		m_Mode = STATE_NORMAL;		//çŠ¶æ…‹ã‚’ãƒãƒ¼ãƒãƒ«ã«ã™ã‚‹
+		TailShotFlag=false;			//å°»å°¾ã®ç™ºå°„ãƒ•ãƒ©ã‚°ã‚’falseã«ã™ã‚‹
 		CNeedle* pNeedle=CGame::GetNeedle();
 		pNeedle->SetHitFlag(false);
 	}
 }
 
 //=============================================================================
-// K”ö‚Ìj‚ª–ß‚Á‚Ä‚­‚é‚Ì‚Æ‚«
+// å°»å°¾ã®é‡ãŒæˆ»ã£ã¦ãã‚‹ã®ã¨ã
 //=============================================================================
 void CPlayer::Return(void)
 {
@@ -492,7 +494,7 @@ void CPlayer::Return(void)
 }
 
 //=============================================================================
-// K”ö‚Éj‚Éˆø‚Á’£‚ç‚ê‚é‚Æ‚«
+// å°»å°¾ã«é‡ã«å¼•ã£å¼µã‚‰ã‚Œã‚‹ã¨ã
 //=============================================================================
 void CPlayer::Pulled(void)
 {
@@ -510,18 +512,18 @@ void CPlayer::Pulled(void)
 
 	CDebugProc::Print("\nDest: (%f,%f,%f)\n" ,  Dest.x,Dest.y,Dest.z);
 	CDebugProc::Print("\nm_Pos: (%f,%f,%f)\n" ,  m_Pos.x,m_Pos.y,m_Pos.z);
-	CDebugProc::Print("\nK”ö‚ÌÀ•W: (%f,%f,%f)\n" ,  pNeedle->GetPos().x,pNeedle->GetPos().y,pNeedle->GetPos().z);
+	CDebugProc::Print("\nå°»å°¾ã®åº§æ¨™: (%f,%f,%f)\n" ,  pNeedle->GetPos().x,pNeedle->GetPos().y,pNeedle->GetPos().z);
 }
 
-//€–S‰‰o
+//æ­»äº¡æ¼”å‡º
 void CPlayer::DeadDirection(void)
 {
-	float G=-0.2f;		//d—Í
+	float G=-0.2f;		//é‡åŠ›
 
 	
 	Speed.y+=G;
 	CRenderer* pRenderer=CManager::GetRenderer();
-	//©‹@‚ÉƒGƒtƒFƒNƒg‚ğƒZƒbƒg
+	//è‡ªæ©Ÿã«ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ã‚»ãƒƒãƒˆ
 	CEffect::Create(255,30,10,m_Pos.x,m_Pos.y,m_Pos.z,pRenderer);
 	CEffect::Create(100,30,10,m_Pos.x,m_Pos.y,m_Pos.z,pRenderer);
 	m_Rot.x+=0.2f;
@@ -532,16 +534,16 @@ void CPlayer::DeadDirection(void)
 	}
 	
 
-	if(m_Pos.y<20)
+	if(m_Pos.y<DEAD_HEIGHT)
 	{
 		m_DeadFlag=true;
 	}
 }
 
-//ƒNƒŠƒA‰‰o
+//ã‚¯ãƒªã‚¢æ¼”å‡º
 void CPlayer::ClearDirection(void)
 {
-	float G=-0.5f;		//d—Í
+	float G=-0.5f;		//é‡åŠ›
 	CPlayer* pPlayer=CGame::GetPlayer();
 	CGoal* pGoal = CGame::GetGoal();
 	CCollision* pCollision = CGame::GetCollision();
