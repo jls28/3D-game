@@ -1,12 +1,12 @@
 //=============================================================================
 //
-// ƒMƒ~ƒbƒN•\¦ˆ— [Gimmick.cpp]
-// Author : ˆîàVr˜a
+// ã‚®ãƒŸãƒƒã‚¯è¡¨ç¤ºå‡¦ç† [Gimmick.cpp]
+// Author : ç¨²æ¾¤ä¿Šå’Œ
 //
 //=============================================================================
 
 //=============================================================================
-// ƒCƒ“ƒNƒ‹[ƒh
+// ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 //=============================================================================
 #include "main.h"
 #include "Gimmick.h"
@@ -19,18 +19,19 @@
 #include "Game.h"
 
 //=============================================================================
-// ƒ}ƒNƒ’è‹`
+// ãƒã‚¯ãƒ­å®šç¾©
 //=============================================================================
-#define MOVE_SPEED					(1.3f)		//ƒMƒ~ƒbƒN‚ÌˆÚ“®‘¬“x
-#define ROT_SPEED					(0.01f)		//ƒMƒ~ƒbƒN‚Ì‰ñ“]‘¬“x
+#define MOVE_SPEED					(1.3f)		//ã‚®ãƒŸãƒƒã‚¯ã®ç§»å‹•é€Ÿåº¦
+#define ROT_SPEED					(0.01f)		//ã‚®ãƒŸãƒƒã‚¯ã®å›è»¢é€Ÿåº¦
+#define MAX_MOVE_Z   (-400) 
+#define MIN_MOVE_Z   (-753)
+//=============================================================================
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+//=============================================================================
+
 
 //=============================================================================
-// ƒOƒ[ƒoƒ‹•Ï”
-//=============================================================================
-
-
-//=============================================================================
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //=============================================================================
 CGimmick::CGimmick(OBJTYPE nObjType,int nPriority):CSceneX(nObjType,nPriority)
 {
@@ -47,7 +48,7 @@ CGimmick::CGimmick(OBJTYPE nObjType,int nPriority):CSceneX(nObjType,nPriority)
 }
 
 //=============================================================================
-// ƒfƒXƒgƒ‰ƒNƒ^
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //=============================================================================
 CGimmick::~CGimmick(void)
 {
@@ -55,16 +56,16 @@ CGimmick::~CGimmick(void)
 }
 
 //=============================================================================
-// ƒIƒuƒWƒFƒNƒg‚Ì¶¬
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆ
 //=============================================================================
 CGimmick* CGimmick::Create(float fPosX,float fPosY,float fPosZ,CRenderer* m_pRenderer)
 {
 	CGimmick *pGimmick;
-	//ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìì¬
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ä½œæˆ
 	pGimmick = new CGimmick(OBJTYPE_GIMMICK);
-	//CEnemy‚ÌInit‚ğŒÄ‚Ño‚·
+	//CEnemyã®Initã‚’å‘¼ã³å‡ºã™
 	pGimmick->Init(m_pRenderer);
-	//À•W‚Ìİ’è
+	//åº§æ¨™ã®è¨­å®š
 	pGimmick->m_Pos = D3DXVECTOR3(fPosX,fPosY,fPosZ);
 	pGimmick->SetPos(fPosX,fPosY,fPosZ);
 
@@ -72,11 +73,11 @@ CGimmick* CGimmick::Create(float fPosX,float fPosY,float fPosZ,CRenderer* m_pRen
 }
 
 //=============================================================================
-// ‰Šú‰»ˆ—
+// åˆæœŸåŒ–å‡¦ç†
 //=============================================================================
 HRESULT CGimmick::Init(CRenderer *pRenderer)
 {
-	//Xƒtƒ@ƒCƒ‹‚Ìw’è
+	//Xãƒ•ã‚¡ã‚¤ãƒ«ã®æŒ‡å®š
 	FileName="data/MODEL/b.x";
 
 	CSceneX::Init(pRenderer);
@@ -90,23 +91,23 @@ HRESULT CGimmick::Init(CRenderer *pRenderer)
 }
 
 //=============================================================================
-// I—¹ˆ—
+// çµ‚äº†å‡¦ç†
 //=============================================================================
 void CGimmick::Uninit(void)
 {
-	//©g‚ÌƒŠƒ\[ƒX‚Ì‰ğ•ú
+	//è‡ªèº«ã®ãƒªã‚½ãƒ¼ã‚¹ã®è§£æ”¾
 	CSceneX::Uninit();
 }
 
 //=============================================================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 //=============================================================================
 void CGimmick::Update(void)
 {
-	//ƒMƒ~ƒbƒN‚Ì©“®ˆÚ“®
+	//ã‚®ãƒŸãƒƒã‚¯ã®è‡ªå‹•ç§»å‹•
 	m_Pos.z+=Movez;
 	//m_Pos.x+=Movex;
-	////”ÍˆÍŠO‚És‚Á‚½‚ç”½“]
+	////ç¯„å›²å¤–ã«è¡Œã£ãŸã‚‰åè»¢
 	//if(m_Pos.z<=-1000.0f || m_Pos.z>=-50.0f)
 	//{
 	//	Movez=-Movez;
@@ -117,13 +118,13 @@ void CGimmick::Update(void)
 	//	Movex=-Movex;
 	//}
 
-	//ˆÚ“®‚Ì§Œä
-	if(m_Pos.z < -753 || m_Pos.z > -400)
+	//ç§»å‹•ã®åˆ¶å¾¡
+	if(m_Pos.z < MIN_MOVE_Z || m_Pos.z > MAX_MOVE_Z)
 	{
 		Movez=-Movez;
 	}
 
-	//CDebugProc::Print("\nƒMƒ~ƒbƒN‚ÌÀ•W: (%f,%f,%f)\n" ,  m_Pos.x,m_Pos.y,m_Pos.z);
+	//CDebugProc::Print("\nã‚®ãƒŸãƒƒã‚¯ã®åº§æ¨™: (%f,%f,%f)\n" ,  m_Pos.x,m_Pos.y,m_Pos.z);
 	this->CSceneX::SetPos(m_Pos.x,m_Pos.y,m_Pos.z);
 	this->CSceneX::SetRot(m_Rot.x,m_Rot.y,m_Rot.z);
 	
@@ -133,15 +134,15 @@ void CGimmick::Update(void)
 	{
 		if(pPlayer->GetSceneLink()==this)
 		{
-			//ƒŠƒ“ƒN‚µ‚Ä‚¢‚é
+			//ãƒªãƒ³ã‚¯ã—ã¦ã„ã‚‹
 			D3DXVECTOR3 RotDest,Offset,PlayerPos,PlayerRot,OffsetRot,GimmickMove;
 			PlayerPos=pPlayer->GetPos();
 			PlayerRot=pPlayer->GetRot();
-			//CDebugProc::Print("\nˆÚ“®‘OƒvƒŒƒC‚â[‚ÌÀ•W: (%f,%f,%f)\n" ,  PlayerPos.x,PlayerPos.y,PlayerPos.z);
-			//‰ñ“]‚Ì·•ª‚ğZo
+			//CDebugProc::Print("\nç§»å‹•å‰ãƒ—ãƒ¬ã‚¤ã‚„ãƒ¼ã®åº§æ¨™: (%f,%f,%f)\n" ,  PlayerPos.x,PlayerPos.y,PlayerPos.z);
+			//å›è»¢ã®å·®åˆ†ã‚’ç®—å‡º
 			RotDest=m_Rot-m_RotOld;
 
-			//³‹K‰»
+			//æ­£è¦åŒ–
 			if(RotDest.y > D3DX_PI)
 			{
 				RotDest.y += -D3DX_PI * 2.0f;
@@ -151,28 +152,28 @@ void CGimmick::Update(void)
 				RotDest.y += D3DX_PI * 2.0f;
 			}
 
-			//ƒIƒtƒZƒbƒg‚ÌZo
+			//ã‚ªãƒ•ã‚»ãƒƒãƒˆã®ç®—å‡º
 			Offset=PlayerPos-m_Pos;
 
-			//ƒIƒtƒZƒbƒg‚Ì‰ñ“]
+			//ã‚ªãƒ•ã‚»ãƒƒãƒˆã®å›è»¢
 			OffsetRot.x=cos(RotDest.y)*Offset.x+sin(RotDest.y)*Offset.z;
 			OffsetRot.z=cos(RotDest.y)*Offset.z-sin(RotDest.y)*Offset.x;
 
-			//VƒvƒŒƒCƒ„[À•W
+			//æ–°ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åº§æ¨™
 			PlayerPos.x=m_Pos.x+OffsetRot.x;
 			PlayerPos.z=m_Pos.z+OffsetRot.z;
 
-			//ƒMƒ~ƒbƒN‚ÌˆÚ“®—Ê
+			//ã‚®ãƒŸãƒƒã‚¯ã®ç§»å‹•é‡
 			GimmickMove=m_Pos-m_PosOld;
 
-			//VƒvƒŒƒCƒ„[À•W
+			//æ–°ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åº§æ¨™
 			PlayerPos.x+=GimmickMove.x;
 			PlayerPos.y=m_Pos.y+m_VtxMax.y;
 			PlayerPos.z+=GimmickMove.z;
-			//CDebugProc::Print("\n‚¬‚Á‚İ‚­ˆÚ“®·•ª‚ÌÀ•W: (%f,%f,%f)\n" ,  GimmickMove.x,GimmickMove.y,GimmickMove.z);
-			//CDebugProc::Print("\nˆÚ“®ŒãƒvƒŒƒC‚â[‚ÌÀ•W: (%f,%f,%f)\n" ,  PlayerPos.x,PlayerPos.y,PlayerPos.z);
+			//CDebugProc::Print("\nãã£ã¿ãç§»å‹•å·®åˆ†ã®åº§æ¨™: (%f,%f,%f)\n" ,  GimmickMove.x,GimmickMove.y,GimmickMove.z);
+			//CDebugProc::Print("\nç§»å‹•å¾Œãƒ—ãƒ¬ã‚¤ã‚„ãƒ¼ã®åº§æ¨™: (%f,%f,%f)\n" ,  PlayerPos.x,PlayerPos.y,PlayerPos.z);
 
-			//Šeî•ñ‚ğ”½‰f
+			//å„æƒ…å ±ã‚’åæ˜ 
 			pPlayer->CPlayer::SetPosition(PlayerPos);
 			pPlayer->SetPositionOld(PlayerPos.x,PlayerPos.y,PlayerPos.z);
 			pPlayer->AddRot(0,RotDest.y,0);
@@ -186,7 +187,7 @@ void CGimmick::Update(void)
 }
 
 //=============================================================================
-// •`‰æˆ—
+// æç”»å‡¦ç†
 //=============================================================================
 void CGimmick::Draw(void)
 {
