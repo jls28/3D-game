@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\Phase">
+      <UniqueIdentifier>{6de07cfc-2a30-4fcb-8456-df47ecf41b0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CMeshField.h">
@@ -42,9 +45,6 @@
     <ClInclude Include="..\Timer.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\Title.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\TitleLogo.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -64,9 +64,6 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\Fireball.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\Gimmick.h">
@@ -117,9 +114,6 @@
     <ClInclude Include="..\resource.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\Result.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\Scene.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -150,6 +144,15 @@
     <ClInclude Include="..\TailBall.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game.h">
+      <Filter>ソース ファイル\Phase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Title.h">
+      <Filter>ソース ファイル\Phase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Result.h">
+      <Filter>ソース ファイル\Phase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Collision.cpp">
@@ -176,9 +179,6 @@
     <ClCompile Include="..\Timer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\Title.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\TitleLogo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -198,9 +198,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\Fireball.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\Gimmick.cpp">
@@ -248,9 +245,6 @@
     <ClCompile Include="..\Renderer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\Result.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\Scene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -283,6 +277,15 @@
     </ClCompile>
     <ClCompile Include="..\Target.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game.cpp">
+      <Filter>ソース ファイル\Phase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Title.cpp">
+      <Filter>ソース ファイル\Phase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Result.cpp">
+      <Filter>ソース ファイル\Phase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -170,9 +170,8 @@ HRESULT CGame::Init(CRenderer* pRenderer)
 	m_pGoal=CGoal::Create(605.5f,50.0f,-241.6f,pRenderer);
 
 	//BGMçƒê∂
-	PlaySound(SOUND_LABEL_GAME);
-	//âŒÇÃã ÇçÏê¨556.100.571
-	//m_pFireball[0]=CFireball::Create(1,150,40,-1082,pRenderer);
+	//PlaySound(SOUND_LABEL_GAME);
+
 	m_pFireball[0]=CFireball::Create(1,586,150,-531,pRenderer);
 	m_pFireball[1]=CFireball::Create(1,586,40,-531,pRenderer);
 	m_pFireball[2]=CFireball::Create(0,586,40,-531,pRenderer);
@@ -194,7 +193,7 @@ HRESULT CGame::Init(CRenderer* pRenderer)
 //=============================================================================
 void CGame::Uninit(void)
 {	
-	StopSound(SOUND_LABEL_GAME);
+	//StopSound(SOUND_LABEL_GAME);
 
 	if(m_pPause!=NULL)
 	{

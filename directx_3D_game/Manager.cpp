@@ -68,7 +68,7 @@ HRESULT CManager::Init(HINSTANCE hInstance,HWND hWnd,bool bWindow)
 
 
 	//サウンドの初期化
-	InitSound(hWnd);
+	//InitSound(hWnd);
 
 	//キーボードの初期化
 	InitKeyboard(hInstance,hWnd);

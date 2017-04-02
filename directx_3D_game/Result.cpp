@@ -53,7 +53,7 @@ HRESULT CResult::Init(CRenderer* pRenderer)
 	//インタンス作成
 	m_pFade = new CFade(OBJTYPE_FADE);
 
-	PlaySound(SOUND_LABEL_RESULT);
+	//PlaySound(SOUND_LABEL_RESULT);
 
 	//フェードの初期化
 	m_pFade->Init(pRenderer);
@@ -77,7 +77,7 @@ HRESULT CResult::Init(CRenderer* pRenderer)
 //=============================================================================
 void CResult::Uninit(void)
 {	
-	StopSound(SOUND_LABEL_RESULT);
+	//StopSound(SOUND_LABEL_RESULT);
 
 	//テクスチャの解放
 	if(m_pD3DTex != NULL)

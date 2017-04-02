@@ -93,14 +93,14 @@ void CPause::Update(void)
 	//上移動
 	if(GetKeyboardTriger(DIK_W))
 	{
-		PlaySound(SOUND_LABEL_SELECT);
+		//PlaySound(SOUND_LABEL_SELECT);
 		m_pArrow->SetPos(ArrowPos.x,ArrowPos.y-150,ArrowPos.z);
 		m_Num--;
 	}
 	//↓移動
 	if(GetKeyboardTriger(DIK_S))
 	{
-		PlaySound(SOUND_LABEL_SELECT);
+		//PlaySound(SOUND_LABEL_SELECT);
 		m_pArrow->SetPos(ArrowPos.x,ArrowPos.y+150,ArrowPos.z);
 		m_Num++;
 	}
@@ -118,7 +118,7 @@ void CPause::Update(void)
 	//決定
 	if(GetKeyboardTriger(DIK_RETURN))
 	{
-		PlaySound(SOUND_LABEL_ENTER);
+		//PlaySound(SOUND_LABEL_ENTER);
 		m_CurrentMenu=(PAUSE_MENU)m_Num;
 	}
 	//ポーズ終了

@@ -65,7 +65,7 @@ HRESULT CTitle::Init(CRenderer* pRenderer)
 	CScene2D::Create(400,300,800,600,"data/TEXTURE/sasori.jpg",pRenderer);
 	CTitleLogo::Create(400,100,500,300,"data/TEXTURE/TitleLogo.png",pRenderer);
 
-	PlaySound(SOUND_LABEL_TITLE);
+	//PlaySound(SOUND_LABEL_TITLE);
 
 
 	return S_OK;
@@ -75,7 +75,7 @@ HRESULT CTitle::Init(CRenderer* pRenderer)
 //=============================================================================
 void CTitle::Uninit(void)
 {
-	StopSound(SOUND_LABEL_TITLE);
+	//StopSound(SOUND_LABEL_TITLE);
 
 	//テクスチャの解放
 	if(m_pD3DTex != NULL)
@@ -92,7 +92,7 @@ void CTitle::Update(void)
 {
 	if(GetKeyboardTriger(DIK_RETURN))
 	{
-		PlaySound(SOUND_LABEL_ENTER);
+		//PlaySound(SOUND_LABEL_ENTER);
 		COLOR Color;
 		Color.R=255;
 		Color.G=255;
